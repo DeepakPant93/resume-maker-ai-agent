@@ -1,7 +1,45 @@
-music_research_task:
+research_task:
     description: >
-        Find the latest music from  internet for {website} on {topic}. make sure you find the most
-        relevant information and present it in a clear and concise manner.
+        Analyze the job description to extract key skills, experiences, and qualifications
+        required. Use the tools to gather content and identify
+        and categorize the requirements.
+
+        Job Description:
+        ---
+        ({job_description})
+        ---
     expected_output: >
-        A list of atleast 5 latest music links in a JSON with (title, link) format from internet on {topic}. Search the music in internet and get the most relevent {website} link.
-    agent: music_researcher
+        A structured list of job requirements, including necessary
+        skills, qualifications, and experiences.
+    agent: job_researcher
+
+profile_task:
+    description: >
+        Compile a detailed personal and professional profile
+        using provided resume:
+
+        Resume:
+        ---
+        ({resume_text})
+        ---
+        Utilize tools to extract and synthesize information from these sources.
+    expected_output: >
+        A comprehensive profile document that includes skills,
+        project experiences, contributions, interests, and
+        communication style.
+    agent: profiler
+
+resume_strategy_task:
+    description: >
+        Using the profile and job requirements obtained from
+        previous tasks, tailor the resume to highlight the most
+        relevant areas. Employ tools to adjust and enhance the
+        resume content. Make sure this is the best resume even but
+        don't make up any information. Update every section,
+        inlcuding the initial summary, work experience, skills,
+        and education. All to better reflrect the candidates
+        abilities and how it matches the job posting.
+    expected_output: >
+        An updated resume that effectively highlights the candidate's
+        qualifications and experiences relevant to the job.
+    agent: resume_strategist

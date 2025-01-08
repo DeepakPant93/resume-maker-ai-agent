@@ -1,41 +1,50 @@
 import warnings
+import PyPDF2
+# from docx import Document
+import io
 
-from resume_maker_ai_agent.crew import JioSavanMusicDownloaderAgent
-from resume_maker_ai_agent.services.web_scarapper_service import scrape_pages
-
-warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
-
-
-def search_music(query: str) -> list[dict]:
-    music_details = []
-    try:
-        # Search the internet for music
-        print(f"Searching for music: {query}")
-        search_results = search_internet(query)
-        print(f"Found {len(search_results)} results")
-
-        # Get music details
-        print("Getting music details")
-        music_details = get_music_details(search_results)
-        print(f"Got details for {len(music_details)} songs")
-        print(f"Music details: {music_details}")
-        print("Done")
-    except Exception as e:
-        print(f"An error occurred: {e!s}")
-
-    return music_details
+from resume_maker_ai_agent.crew import ResumeMakerAIAgent
+from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 
-def search_internet(query: str) -> list[dict]:
+def _extract_text_from_pdf(pdf_file_path):
+    """Extract text content from uploaded PDF file."""
+    pdf_reader = PyPDF2.PdfReader(pdf_file_path)
+    text = ""
+    for page in pdf_reader.pages:
+        text += page.extract_text()
+    return text
+
+
+def run(pdf_file_path: UploadedFile, job_description: str) -> str:
+    """
+    Processes a PDF resume file, customizes it based on the job description,
+    and returns the updated resume text.
+
+    :param pdf_file_path: Path to the PDF file containing the resume.
+    :param job_description: Description of the job for which the resume needs to be customized.
+    :return: A string representing the updated resume content.
+    """
+
+    print("Extracting text from PDF")
+    resume_text = _extract_text_from_pdf(pdf_file_path)
+
     # Run the crew
-    inputs = {"website": "https://www.jiosaavn.com", "topic": query}
-    result = JioSavanMusicDownloaderAgent().crew().kickoff(inputs=inputs)
-    links = result.to_dict().get("links", [])
-    return links if isinstance(links, list) else []
+    print("Running the crew")
+    inputs = {"resume_text": resume_text, "job_description": job_description}
+    result = ResumeMakerAIAgent().crew().kickoff(inputs=inputs)
+
+    return result.raw
 
 
-def get_music_details(songs: list[dict]) -> list[dict]:
-    # Get music details by scrapping the pages
+def create_docx(content):
+    """Create a Word document with the content."""
+    # doc = Document()
+    # doc.add_paragraph(content)
 
-    links: list[str] = [album["link"] for album in songs]
-    return scrape_pages(links)
+    # # Save to bytes buffer
+    # buffer = io.BytesIO()
+    # doc.save(buffer)
+    # buffer.seek(0)
+    # return buffer
+    return none

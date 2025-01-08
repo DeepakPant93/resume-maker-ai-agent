@@ -1,6 +1,6 @@
 ---
 title: Resume Maker AI
-emoji: 🎵
+emoji: 📄
 colorFrom: blue
 colorTo: purple
 sdk: docker

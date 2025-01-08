@@ -39,7 +39,7 @@ help: ## Display this help message
 .PHONY: bake-env
 bake-env: clean-env ## Install the poetry environment and set up pre-commit hooks
 	@echo "🚀 Creating virtual environment using pyenv and poetry"
-	@poetry install
+	@poetry install --all-extras
 	@poetry run pre-commit install || true
 	@max_retries=3; count=0; \
 	while ! make lint; do \
@@ -72,58 +72,6 @@ init-repo: ## Initialize git repository
 	@git remote add origin git@github.com:$(GITHUB_USERNAME)/$(GITHUB_REPO).git
 	@echo "🚀 Pushing initial commit"
 	@git push -u origin main
-
-.PHONY: setup-cloud-env
-setup-cloud-env: ## Create resource group, container app environment, and service principal
-	@echo "🚀 Creating resource group: $(RESOURCE_GROUP)"
-	@az group create --name $(RESOURCE_GROUP) --location $(CLOUD_REGION)
-
-	@echo "🚀 Creating container app environment: $(APP_ENV_NAME)"
-	@az containerapp env create --name $(APP_ENV_NAME) --resource-group $(RESOURCE_GROUP) --location $(CLOUD_REGION)
-
-	@echo "🚀 Fetching subscription ID"
-	@subscription_id=$$(az account show --query "id" -o tsv) && \
-	echo "Subscription ID: $$subscription_id" && \
-	echo "🚀 Creating service principal for: $(APP_NAME)" && \
-	az ad sp create-for-rbac --name "$(APP_NAME)-service-principal" --role contributor --scopes /subscriptions/$$subscription_id --sdk-auth
-
-	@echo "🚀 Creating container app: $(APP_NAME)"
-	@az containerapp create --name $(APP_NAME) --resource-group $(RESOURCE_GROUP) --environment $(APP_ENV_NAME) --image 'nginx:latest' --target-port 80 --ingress 'external' --query "properties.configuration.ingress.fqdn"
-
-.PHONY: clean-cloud-env
-clean-cloud-env: ## Delete resource group, container app environment, and service principal
-	@echo "🚀 Deleting service principal for: $(APP_NAME)-service-principal"
-	@sp_object_id=$$(az ad sp list --display-name "$(APP_NAME)-service-principal" --query "[0].id" -o tsv) && \
-	if [ -n "$$sp_object_id" ]; then \
-		az ad sp delete --id $$sp_object_id; \
-		echo "Service principal deleted"; \
-	else \
-		echo "Service principal not found, skipping deletion"; \
-	fi
-
-	@echo "🚀 Deleting container app: $(APP_NAME)"
-	@az containerapp delete --name $(APP_NAME) --resource-group $(RESOURCE_GROUP) --yes --no-wait || echo "Container app not found, skipping deletion"
-
-	@echo "🚀 Deleting container app environment: $(APP_ENV_NAME)"
-	@az containerapp env delete --name $(APP_ENV_NAME) --resource-group $(RESOURCE_GROUP) --yes --no-wait || echo "Container app environment not found, skipping deletion"
-
-	@echo "🚀 Deleting resource group: $(RESOURCE_GROUP)"
-	@az group delete --name $(RESOURCE_GROUP) --yes --no-wait || echo "Resource group not found, skipping deletion"
-
-.PHONY: install-prerequisites
-install-prerequisites: ## Install system prerequisites
-	@echo "Updating package lists..."
-	@sudo apt-get update
-	@echo "Installing system prerequisites..."
-	@sudo apt-get install -y \
-        chromium \
-        chromium-driver \
-        gnupg \
-        libgconf-2-4 \
-        libnss3 \
-        unzip \
-        wget \
-		sqlite3
 
 
 # =============================
@@ -184,7 +132,7 @@ bake-and-publish: bake publish ## Build and publish to PyPI
 .PHONY: update
 update: ## Update project dependencies
 	@echo "🚀 Updating project dependencies"
-	@poetry update
+	@poetry update --all-extras
 	@poetry run pre-commit install --overwrite
 	@echo "Dependencies updated successfully"
 
@@ -194,7 +142,7 @@ update: ## Update project dependencies
 .PHONY: run
 run: ## Run the project's main application
 	@echo "🚀 Running the project"
-	@poetry run streamlit run $(PROJECT_SLUG)/app.py
+	@poetry run streamlit run $(PROJECT_SLUG)/app2.py --server.port 7860
 
 .PHONY: docs-test
 docs-test: ## Test if documentation can be built without warnings or errors
@@ -263,4 +211,4 @@ teardown: clean-bake clean-container ## Clean up temporary files and directories
 	@echo "🚀 Clean up completed."
 
 .PHONY: teardown-all
-teardown-all: teardown clean-cloud-env ## Clean up temporary files and directories and destroy the virtual environment, Docker image, and Cloud resources
+teardown-all: teardown ## Clean up temporary files and directories and destroy the virtual environment, Docker image, and Cloud resources

@@ -15,7 +15,10 @@
     },
     // Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
-    "forwardPorts": [7860, 8000],
+    "forwardPorts": [
+        7860,
+        8000
+    ],
     // Configure tool-specific properties.
     "customizations": {
         "vscode": {
@@ -30,10 +33,13 @@
                 "ms-python.python", // Python
                 "ms-python.black-formatter", // Black
                 "ms-python.debugpy", // Debugger for Python
-                "redhat.vscode-yaml" // YAML
+                "redhat.vscode-yaml", // YAML
+                "tamasfe.even-better-toml" // TOML
             ],
             "settings": {
-                "python.testing.pytestArgs": ["tests"],
+                "python.testing.pytestArgs": [
+                    "tests"
+                ],
                 "python.testing.unittestEnabled": false,
                 "python.testing.pytestEnabled": true,
                 "python.defaultInterpreterPath": "/workspaces/resume-maker-ai-agent/.venv/bin/python",

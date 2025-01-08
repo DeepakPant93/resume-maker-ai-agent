@@ -1,67 +1,64 @@
-[tool.poetry]
+[project]
 name = "resume_maker_ai_agent"
 version = "0.0.1"
 description = "This app will download Jio-Savan music."
-authors = ["Deepak pant <deepak.93p@gmail.com>"]
-repository = "https://github.com/DeepakPant93/resume-maker-ai-agent"
-documentation = "https://DeepakPant93.github.io/resume-maker-ai-agent/"
 readme = "README.md"
-packages = [
-  {include = "resume_maker_ai_agent"}
+authors = [{ name = "Deepak Pant", email = "deepak.93p@gmail.com" }]
+requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "crewai[tools]>=0.86.0,<1.0.0",
+    "streamlit >=1.41.1",
+    # "PyPDF2 >=3.0.1",
+    # "python-docx >=1.1.2",
 ]
 
-[tool.poetry.scripts]
+[project.urls]
+repository = "https://github.com/DeepakPant93/resume-maker-ai-agent"
+documentation = "https://DeepakPant93.github.io/resume-maker-ai-agent/"
+
+
+[project.optional-dependencies]
+dev = [
+    "deptry==0.16.2",
+    "mypy==1.5.1",
+    "pre-commit==3.4.0",
+    "tox==4.11.1",
+    "ipykernel==6.25.0",
+    "black==23.9.0",
+    "build==1.2.2",
+    "bump-my-version==0.28.2",
+    "codespell==2.2.5",
+    "wheel==0.41.0",
+    "twine==4.0.0",
+    "bandit==1.8.0",
+    "pylint==3.0.0",
+    "pydocstyle==6.3.0",
+]
+docs = [
+    "mkdocs==1.5.0",
+    "sphinx==7.2.0",
+    "mkdocs-git-revision-date-plugin==0.3.2",
+    "mkdocs-git-revision-date-localized-plugin==1.3.0",
+    "mkdocs-jupyter>=0.25.1",
+    "mkdocs-pdf-export-plugin==0.5.10",
+    "mkdocs-material>=9.1.3",
+    "mkdocstrings-crystal==0.3.7",
+    "pygments==2.16.0",
+    "pymdown-extensions==10.0",
+    "nbconvert==7.16.5",
+    "nbformat==5.9.0",
+    "livereload==2.6.3",
+    "watchdog==3.0.0",
+    "mkdocstrings[python]==0.27.0",
+    "mkdocs-minify-plugin==0.8.0",
+]
+
+[project.scripts]
 resume_maker_ai_agent = "resume_maker_ai_agent.__main__:main"
 
-[tool.poetry.dependencies]
-python = ">=3.11,<3.13"
-crewai = {version = ">=0.86.0,<1.0.0", extras = ["tools"]}
-streamlit = "^1.41.1"
-selenium = "^4.27.1"
-# chromedriver_autoinstaller = "^0.6.4"
-# webdriver-manager = "*"
-bs4 = "*"
-
-[tool.poetry.group.dev.dependencies]
-deptry = "^0.16.2"  # For dependency management
-mypy = "^1.5.1"  # Static type checking
-pre-commit = "^3.4.0"  # Pre-commit hooks
-tox = "^4.11.1"  # Testing in multiple environments
-ipykernel = "^6.25.0"  # Jupyter kernel
-black = "^23.9.0"  # Code formatter
-build = "^1.0.0"  # Build management
-bump-my-version = "^0.28.2"  # Bump versions automatically
-codespell = "^2.2.5"  # Spell checking in code
-wheel = "^0.41.0"  # Build wheels
-twine = "^4.0.0"  # Publish packages
-bandit = "^1.8.0"  # Security check
-pylint = "^3.0.0"  # Powerful linter
-pydocstyle = "^6.3.0"  # Enforce PEP 257 docstring conventions
-# isort = "^5.12.0"  # Sort imports
-# ruff = "^0.8.6"  # Linting tool
-
-[tool.poetry.group.docs.dependencies]
-mkdocs = "^1.5.0"  # Documentation site generator
-sphinx = "^7.2.0"  # Documentation tool
-mkdocs-git-revision-date-plugin = "^0.3.2"  # Show revision dates
-mkdocs-git-revision-date-localized-plugin = "^1.3.0"  # Localized dates
-mkdocs-jupyter = ">=0.25.1"  # For Jupyter Notebook integration
-mkdocs-pdf-export-plugin = "^0.5.10"  # PDF export
-mkdocs-material = ">=9.1.3"  # MkDocs Material theme
-mkdocstrings-crystal = "^0.3.0"  # Mkdocstrings for Crystal
-pygments = "^2.16.0"  # Syntax highlighting
-pymdown-extensions = "^10.0"  # Markdown extensions
-nbconvert = "^7.7.0"  # Convert notebooks to other formats
-nbformat = "^5.9.0"  # Notebook format support
-livereload = "^2.6.3"  # Live reload for MkDocs
-watchdog = "^3.0.0"  # File monitoring
-mkdocstrings = {extras = ["python"], version = "^0.27.0"}  # Auto-generate documentation from docstrings
-mkdocs-minify-plugin = "^0.8.0"  # Minify HTML
-
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
-
 
 [tool.mypy]
 files = ["resume_maker_ai_agent"]
@@ -85,7 +82,7 @@ module = [
     "crewai.*",
     "crewai_tools.*",
     "bs4.*",
-    "resume_maker_ai_agent.crew"
+    "resume_maker_ai_agent.crew",
 ]
 ignore_missing_imports = true
 ignore_errors = true
@@ -99,7 +96,7 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 filterwarnings = [
     "ignore:.*general_plain_validator_function.*:DeprecationWarning",
-    "ignore:.*with_info_plain_validator_function.*:DeprecationWarning"
+    "ignore:.*with_info_plain_validator_function.*:DeprecationWarning",
 ]
 
 
@@ -127,7 +124,8 @@ select = [
     # mccabe
     "C90",
     # pycodestyle
-    "E", "W",
+    "E",
+    "W",
     # pyflakes
     "F",
     # pygrep-hooks
@@ -145,7 +143,7 @@ ignore = [
     # DoNotAssignLambda
     "E731",
     # Possible binding to all interfaces - Require for Docker container
-    "S104"
+    "S104",
 ]
 
 [tool.ruff.format]
@@ -161,10 +159,10 @@ source = ["resume_maker_ai_agent"]
 # parallel = true
 # concurrency = ["thread"]
 omit = [
-    "**/__init__.py", # Exclude all init files
+    "**/__init__.py",                 # Exclude all init files
     "resume_maker_ai_agent/crew.py",  # Exclude crew.py file
-    "resume_maker_ai_agent/config/*",  # Exclude all files in config folder
-    "resume_maker_ai_agent/models/*",  # Exclude all files in model folder
+    "resume_maker_ai_agent/config/*", # Exclude all files in config folder
+    "resume_maker_ai_agent/models/*", # Exclude all files in model folder
 ]
 
 [tool.ruff.per-file-ignores]
@@ -181,7 +179,26 @@ search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
 
 [tool.deptry]
-exclude = ["research","artifacts", "notebooks", "tests", "docs", ".venv", "venv", "__pycache__", ".ruff_cache", ".pytest_cache", ".mypy_cache", ".coverage", ".git", "build", "dist", ".github", "site", "config"]
+exclude = [
+    "research",
+    "artifacts",
+    "notebooks",
+    "tests",
+    "docs",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".ruff_cache",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".coverage",
+    ".git",
+    "build",
+    "dist",
+    ".github",
+    "site",
+    "config",
+]
 ignore = ["DEP003"]
 
 [tool.pydocstyle]

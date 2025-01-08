@@ -12,5 +12,6 @@
         "**/coverage.xml": true,
         "**/build": true,
         "**/dist": true
-    }
+    },
+    "makefile.makefilePath": "/workspaces/resume-maker-ai-agent/Makefile"
 }
