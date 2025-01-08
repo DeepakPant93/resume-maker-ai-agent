@@ -54,6 +54,7 @@ COPY --chown=user --from=builder /app/dist/*.whl /app/
 # Install the wheel file
 RUN pip install --no-cache-dir /app/*.whl
 
+
 # Expose application port
 EXPOSE 7860
 

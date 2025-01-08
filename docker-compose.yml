@@ -11,6 +11,11 @@ services:
         volumes:
             - .:/app
         environment:
-            - PYTHONUNBUFFERED=1
+        - PROVIDER=${PROVIDER}
+        - MODEL=${MODEL}
+        - EMBEDDER=${EMBEDDER}
+        - GEMINI_API_KEY=${GEMINI_API_KEY}
+        - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+        - SERPER_API_KEY=${SERPER_API_KEY}
         command: >
             resume_maker_ai_agent

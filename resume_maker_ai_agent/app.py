@@ -1,11 +1,11 @@
 # import PyPDF2
 
 # from docx import Document
-# from docx.shared import Inches
 import streamlit as st
 
 # import tempfile
 from resume_maker_ai_agent.services.app_service import run
+from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 
 def main() -> None:
@@ -15,7 +15,14 @@ def main() -> None:
     st.write("Customize your resume for specific job descriptions using AI")
 
     # File upload
-    uploaded_file = st.file_uploader("Upload your resume (PDF)", type="pdf")
+    uploaded_file: (UploadedFile | None) = st.file_uploader(
+        "Upload your resume (PDF)",  type="pdf")
+
+    if uploaded_file is not None:
+        print("File uploaded successfully!")
+        print(f'File name: {uploaded_file.name}')
+        print(f'File type: {uploaded_file.type}')
+        print(f'File size: {uploaded_file.size}')
 
     # Job description input
     job_description = st.text_area("Enter the job description:", height=200)

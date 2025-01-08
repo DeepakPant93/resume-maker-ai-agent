@@ -72,7 +72,8 @@ warn_unused_ignores = true
 show_error_codes = true
 pretty = true
 show_traceback = true
-
+ignore_missing_imports = true
+exclude = ['.venv/', 'venv/', '.env/', 'env/']
 
 [[tool.mypy.overrides]]
 module = [
@@ -84,10 +85,13 @@ module = [
     "crewai_tools.*",
     "bs4.*",
     "streamlit.*",
+    "sql_connection.*",
+    "connections.*",
     "resume_maker_ai_agent.crew",
 ]
 ignore_missing_imports = true
 ignore_errors = true
+# disable_error_code = ["import-untyped", "import-not-found", "redundant-cast"]
 
 
 [tool.pytest.ini_options]
