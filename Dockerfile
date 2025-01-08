@@ -50,6 +50,10 @@ WORKDIR /app
 # Copy the built wheel file from the builder stage
 COPY --chown=user --from=builder /app/dist/*.whl /app/
 
+RUN mkdir -p /app
+RUN chmod 777 /app
+RUN mkdir -p /.cache
+RUN chmod 777 /.cache
 
 # Install the wheel file
 RUN pip install --no-cache-dir /app/*.whl
