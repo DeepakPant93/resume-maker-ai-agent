@@ -4,3 +4,4 @@ showErrorDetails = "none"
 [server]
 maxUploadSize = 10
 enableCORS = false
+enableXsrfProtection = false
