@@ -8,8 +8,9 @@ requires-python = ">=3.10,<=3.13"
 dependencies = [
     "crewai[tools]>=0.86.0,<1.0.0",
     "streamlit >=1.41.1",
-    # "PyPDF2 >=3.0.1",
     # "python-docx >=1.1.2",
+    "pypdf (>=5.1.0,<6.0.0)",
+    "pysqlite3-binary >=0.5.4",
 ]
 
 [project.urls]
@@ -82,6 +83,7 @@ module = [
     "crewai.*",
     "crewai_tools.*",
     "bs4.*",
+    "streamlit.*",
     "resume_maker_ai_agent.crew",
 ]
 ignore_missing_imports = true

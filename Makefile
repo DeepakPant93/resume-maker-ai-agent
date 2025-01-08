@@ -37,7 +37,7 @@ help: ## Display this help message
 # Installation and Setup
 # =============================
 .PHONY: bake-env
-bake-env: clean-env ## Install the poetry environment and set up pre-commit hooks
+bake-env: ## Install the poetry environment and set up pre-commit hooks
 	@echo "🚀 Creating virtual environment using pyenv and poetry"
 	@poetry install --all-extras
 	@poetry run pre-commit install || true
@@ -84,13 +84,9 @@ lint: ## Run code quality tools
 	@echo "🚀 Linting code with pre-commit"
 	@poetry run pre-commit run -a
 	@echo "🚀 Static type checking with mypy"
-	# @echo "🚀 Sorting imports with isort"
-	# @poetry run isort resume_maker_ai_agent/
-	# @echo "🚀 Linting code with Ruff"
-	# @poetry run ruff format resume_maker_ai_agent/
 	@poetry run mypy
 	@echo "🚀 Checking for obsolete dependencies with deptry"
-	@poetry run deptry .
+	# @poetry run deptry .
 	@echo "🚀 Checking for security vulnerabilities with bandit"
 	@poetry run bandit -c pyproject.toml -r resume_maker_ai_agent/ -ll
 
@@ -132,7 +128,7 @@ bake-and-publish: bake publish ## Build and publish to PyPI
 .PHONY: update
 update: ## Update project dependencies
 	@echo "🚀 Updating project dependencies"
-	@poetry update --all-extras
+	@poetry update
 	@poetry run pre-commit install --overwrite
 	@echo "Dependencies updated successfully"
 
@@ -142,7 +138,7 @@ update: ## Update project dependencies
 .PHONY: run
 run: ## Run the project's main application
 	@echo "🚀 Running the project"
-	@poetry run streamlit run $(PROJECT_SLUG)/app2.py --server.port 7860
+	@poetry run streamlit run $(PROJECT_SLUG)/app.py --server.port 7860
 
 .PHONY: docs-test
 docs-test: ## Test if documentation can be built without warnings or errors

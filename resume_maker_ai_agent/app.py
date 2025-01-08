@@ -1,53 +1,62 @@
-import warnings
+# import PyPDF2
 
+# from docx import Document
+# from docx.shared import Inches
 import streamlit as st
 
-from resume_maker_ai_agent.services.app_service import search_music
+# import tempfile
+from resume_maker_ai_agent.services.app_service import run
 
-warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
+
+def main() -> None:
+    print("main......")
+    st.set_page_config(page_title="Resume Maker AI", page_icon="📄")
+
+    st.title("Resume Maker AI")
+    st.write("Customize your resume for specific job descriptions using AI")
+
+    # File upload
+    uploaded_file = st.file_uploader("Upload your resume (PDF)", type="pdf")
+
+    # Job description input
+    job_description = st.text_area("Enter the job description:", height=200)
+
+    if st.button("Customize Resume") and uploaded_file is not None and job_description:
+        with st.spinner("Customizing your resume..."):
+            try:
+                # Customize resume
+                customized_resume = run(uploaded_file, job_description)
+
+                # Display customized resume
+                st.subheader("Customized Resume")
+                st.write(customized_resume)
+
+                # Create download button
+                # doc_buffer = create_docx(customized_resume)
+                # st.download_button(
+                #     label="Download Customized Resume",
+                #     data=doc_buffer,
+                #     file_name="customized_resume.docx",
+                #     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                # )
+
+            except Exception as e:
+                st.error(f"An error occurred: {e!s}")
+
+    # Add instructions and tips
+    with st.expander("How to use"):
+        st.write("""
+        1. Upload your current resume in PDF format
+        2. Paste the job description you're targeting
+        3. Click 'Customize Resume' to generate a tailored version
+        4. Review the customized resume
+        5. Download the result as a Word document
+        """)
+
+    # Footer
+    st.markdown("---")
+    st.markdown("Built with Streamlit and Crew AI")
 
 
-# Set page config
-st.set_page_config(page_title="Music Search", page_icon="🎵", layout="wide")
-
-# App title
-st.title("🎵 Music Search Results")
-
-search_query = st.sidebar.text_input("Enter song name or artist")
-
-if search_query:
-    # Show loading spinner
-    with st.spinner("Searching for music..."):
-        music_data = search_music(search_query)
-
-    if music_data is None or len(music_data) == 0:
-        st.warning("No music found. Please try again.")
-
-    for item in music_data:
-        try:
-            song_id = item["song_info"]["song_url"].split("/")[-1]  # Get unique ID from URL
-            song_title = item["song_info"]["title"].split(" - ")[0]
-            musicians = item["song_info"]["musician"]
-            artists = ", ".join(musicians[:2])
-            release_date = item["song_info"]["release_date"]
-
-            # Display song information in a row
-            with st.container():
-                # Create columns
-                col1, col2, col3, col4 = st.columns([1, 2, 2, 2])
-
-                # Column 1: Image
-                with col1:
-                    st.image(item["album_image_url"], width=100)
-
-                # Column 2: Title and Artists
-                with col2:
-                    st.markdown(f"**{song_title}**")
-                    st.markdown(f"*{artists} | {release_date}*")
-
-                # Column 4: Audio Player
-                with col4:
-                    st.audio(item["song_info"]["downloadable_url"])
-        except Exception as e:
-            print(f"An error occurred: {e!s}")
-            continue
+if __name__ == "__main__":
+    main()

@@ -1,9 +1,9 @@
+import warnings
+
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 
-from resume_maker_ai_agent.models.response_models import MusicDetails
 from resume_maker_ai_agent.tools.custom_tool import search_tool
-import warnings
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -25,9 +25,7 @@ class ResumeMakerAIAgent:
         :return: An instance of the Agent class
         """
 
-        return Agent(config=self.agents_config["job_researcher"],
-                     tools=[search_tool],
-                     verbose=True)
+        return Agent(config=self.agents_config["job_researcher"], tools=[search_tool], verbose=True)
 
     @agent
     def profiler(self) -> Agent:
@@ -39,9 +37,7 @@ class ResumeMakerAIAgent:
         :return: An instance of the Agent class
         """
 
-        return Agent(config=self.agents_config["profiler"],
-                     tools=[search_tool],
-                     verbose=True)
+        return Agent(config=self.agents_config["profiler"], tools=[search_tool], verbose=True)
 
     @agent
     def resume_strategist(self) -> Agent:
@@ -54,9 +50,7 @@ class ResumeMakerAIAgent:
         :return: An instance of the Agent class
         """
 
-        return Agent(config=self.agents_config["resume_strategist"],
-                     tools=[search_tool],
-                     verbose=True)
+        return Agent(config=self.agents_config["resume_strategist"], tools=[search_tool], verbose=True)
 
     @task
     def research_task(self) -> Task:
@@ -68,10 +62,7 @@ class ResumeMakerAIAgent:
         :return: An instance of the Task class
         """
 
-        return Task(
-            config=self.tasks_config["research_task"],
-            async_execution=True
-        )
+        return Task(config=self.tasks_config["research_task"], async_execution=True)
 
     @task
     def profile_task(self) -> Task:
@@ -83,13 +74,10 @@ class ResumeMakerAIAgent:
         :return: An instance of the Task class
         """
 
-        return Task(
-            config=self.tasks_config["profile_task"],
-            async_execution=True
-        )
+        return Task(config=self.tasks_config["profile_task"], async_execution=True)
 
     @task
-    def profile_task(self) -> Task:
+    def resume_strategy_task(self) -> Task:
         """
         Creates the profile task.
 
@@ -100,8 +88,8 @@ class ResumeMakerAIAgent:
         """
 
         return Task(
-            config=self.tasks_config["profile_task"],
-            context=[research_task, profile_task],
+            config=self.tasks_config["resume_strategy_task"],
+            context=[self.research_task(), self.profile_task()],
         )
 
     @crew
