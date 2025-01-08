@@ -9,7 +9,6 @@ from resume_maker_ai_agent.services.app_service import run
 
 
 def main() -> None:
-    print("main......")
     st.set_page_config(page_title="Resume Maker AI", page_icon="📄")
 
     st.title("Resume Maker AI")

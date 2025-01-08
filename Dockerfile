@@ -4,7 +4,7 @@ FROM python:3.12-slim AS builder
 RUN useradd -m -u 1000 user
 
 # Set environment variables for Poetry
-ENV POETRY_VERSION=1.6.1 \
+ENV POETRY_VERSION=2.0.0 \
     POETRY_HOME="/opt/poetry" \
     PATH="/opt/poetry/bin:$PATH"
 
@@ -21,7 +21,7 @@ COPY --chown=user pyproject.toml poetry.lock /app/
 
 # Install dependencies (only for building the wheel)
 RUN poetry config virtualenvs.create false \
-    && poetry install --no-root --only main
+    && poetry install --no-root
 
 # Copy the rest of the application code
 COPY --chown=user . /app

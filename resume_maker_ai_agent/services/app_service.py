@@ -34,6 +34,9 @@ def run(pdf_file_path: UploadedFile, job_description: str) -> str:
     print("Running the crew")
     inputs = {"resume_text": resume_text, "job_description": job_description}
     result = ResumeMakerAIAgent().crew().kickoff(inputs=inputs)
+    print("Done")
+
+    print(result.raw)
 
     return str(result.raw)
 
