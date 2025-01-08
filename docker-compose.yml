@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+    resume_maker_ai_agent:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: resume_maker_ai_agent
+        ports:
+            - "7860:7860"
+        volumes:
+            - .:/app
+        environment:
+            - PYTHONUNBUFFERED=1
+        command: >
+            resume_maker_ai_agent

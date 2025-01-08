@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: resume_maker_ai_agent",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/resume_maker_ai_agent/app.py",
+            "args": ["run"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "jinja": true
+        }
+    ]
+}

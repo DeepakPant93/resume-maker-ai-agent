@@ -1,0 +1,27 @@
+name: Deploy to Hugging Face Spaces
+
+on:
+    push:
+        branches:
+            - main # or master, depending on your default branch
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Configure Git
+              run: |
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --global user.name "github-actions[bot]"
+
+            - name: Push to Hugging Face Space
+              env:
+                  HF_TOKEN: ${{ secrets.HF_TOKEN }}
+              run: |
+                  git remote add space https://USER:$HF_TOKEN@huggingface.co/spaces/deepakpant/resume-maker-ai-agent
+                  git push --force space main

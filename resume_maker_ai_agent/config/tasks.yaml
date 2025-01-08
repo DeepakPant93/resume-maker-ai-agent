@@ -1,0 +1,7 @@
+music_research_task:
+    description: >
+        Find the latest music from  internet for {website} on {topic}. make sure you find the most
+        relevant information and present it in a clear and concise manner.
+    expected_output: >
+        A list of atleast 5 latest music links in a JSON with (title, link) format from internet on {topic}. Search the music in internet and get the most relevent {website} link.
+    agent: music_researcher

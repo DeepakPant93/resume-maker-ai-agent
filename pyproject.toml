@@ -1,0 +1,195 @@
+[tool.poetry]
+name = "resume_maker_ai_agent"
+version = "0.0.1"
+description = "This app will download Jio-Savan music."
+authors = ["Deepak pant <deepak.93p@gmail.com>"]
+repository = "https://github.com/DeepakPant93/resume-maker-ai-agent"
+documentation = "https://DeepakPant93.github.io/resume-maker-ai-agent/"
+readme = "README.md"
+packages = [
+  {include = "resume_maker_ai_agent"}
+]
+
+[tool.poetry.scripts]
+resume_maker_ai_agent = "resume_maker_ai_agent.__main__:main"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+crewai = {version = ">=0.86.0,<1.0.0", extras = ["tools"]}
+streamlit = "^1.41.1"
+selenium = "^4.27.1"
+# chromedriver_autoinstaller = "^0.6.4"
+# webdriver-manager = "*"
+bs4 = "*"
+
+[tool.poetry.group.dev.dependencies]
+deptry = "^0.16.2"  # For dependency management
+mypy = "^1.5.1"  # Static type checking
+pre-commit = "^3.4.0"  # Pre-commit hooks
+tox = "^4.11.1"  # Testing in multiple environments
+ipykernel = "^6.25.0"  # Jupyter kernel
+black = "^23.9.0"  # Code formatter
+build = "^1.0.0"  # Build management
+bump-my-version = "^0.28.2"  # Bump versions automatically
+codespell = "^2.2.5"  # Spell checking in code
+wheel = "^0.41.0"  # Build wheels
+twine = "^4.0.0"  # Publish packages
+bandit = "^1.8.0"  # Security check
+pylint = "^3.0.0"  # Powerful linter
+pydocstyle = "^6.3.0"  # Enforce PEP 257 docstring conventions
+# isort = "^5.12.0"  # Sort imports
+# ruff = "^0.8.6"  # Linting tool
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.0"  # Documentation site generator
+sphinx = "^7.2.0"  # Documentation tool
+mkdocs-git-revision-date-plugin = "^0.3.2"  # Show revision dates
+mkdocs-git-revision-date-localized-plugin = "^1.3.0"  # Localized dates
+mkdocs-jupyter = ">=0.25.1"  # For Jupyter Notebook integration
+mkdocs-pdf-export-plugin = "^0.5.10"  # PDF export
+mkdocs-material = ">=9.1.3"  # MkDocs Material theme
+mkdocstrings-crystal = "^0.3.0"  # Mkdocstrings for Crystal
+pygments = "^2.16.0"  # Syntax highlighting
+pymdown-extensions = "^10.0"  # Markdown extensions
+nbconvert = "^7.7.0"  # Convert notebooks to other formats
+nbformat = "^5.9.0"  # Notebook format support
+livereload = "^2.6.3"  # Live reload for MkDocs
+watchdog = "^3.0.0"  # File monitoring
+mkdocstrings = {extras = ["python"], version = "^0.27.0"}  # Auto-generate documentation from docstrings
+mkdocs-minify-plugin = "^0.8.0"  # Minify HTML
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.mypy]
+files = ["resume_maker_ai_agent"]
+disallow_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+show_error_codes = true
+pretty = true
+show_traceback = true
+
+
+[[tool.mypy.overrides]]
+module = [
+    "joblib.*",
+    "yaml.*",
+    "ensure.*",
+    "fastapi_health.*",
+    "crewai.*",
+    "crewai_tools.*",
+    "bs4.*",
+    "resume_maker_ai_agent.crew"
+]
+ignore_missing_imports = true
+ignore_errors = true
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = "legacy_tests"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+filterwarnings = [
+    "ignore:.*general_plain_validator_function.*:DeprecationWarning",
+    "ignore:.*with_info_plain_validator_function.*:DeprecationWarning"
+]
+
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+fix = true
+select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+    # tryceratops
+    "TRY",
+]
+ignore = [
+    # LineTooLong
+    "E501",
+    # DoNotAssignLambda
+    "E731",
+    # Possible binding to all interfaces - Require for Docker container
+    "S104"
+]
+
+[tool.ruff.format]
+preview = true
+
+[tool.coverage.report]
+skip_empty = true
+
+
+[tool.coverage.run]
+branch = true
+source = ["resume_maker_ai_agent"]
+# parallel = true
+# concurrency = ["thread"]
+omit = [
+    "**/__init__.py", # Exclude all init files
+    "resume_maker_ai_agent/crew.py",  # Exclude crew.py file
+    "resume_maker_ai_agent/config/*",  # Exclude all files in config folder
+    "resume_maker_ai_agent/models/*",  # Exclude all files in model folder
+]
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.bumpversion]
+current_version = "0.0.1"
+commit = true
+tag = true
+
+[[tool.bumpversion.files]]
+glob = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[tool.deptry]
+exclude = ["research","artifacts", "notebooks", "tests", "docs", ".venv", "venv", "__pycache__", ".ruff_cache", ".pytest_cache", ".mypy_cache", ".coverage", ".git", "build", "dist", ".github", "site", "config"]
+ignore = ["DEP003"]
+
+[tool.pydocstyle]
+select = ["D101", "D102"]
+
+[tool.isort]
+profile = "black"
+known_third_party = ["requests", "bs4", "pydantic", "crewai_tools"]
+default_section = "THIRDPARTY"
+force_sort_within_sections = true
+line_length = 120

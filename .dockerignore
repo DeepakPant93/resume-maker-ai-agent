@@ -1,0 +1,71 @@
+# Python cache files
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Poetry-related files
+.poetry/
+
+# Virtual environments
+**/.venv/
+**/venv/
+
+# Node.js dependencies
+**/node_modules/
+
+# Mypy cache
+**/.mypy_cache/
+
+# Pytest cache
+**/.pytest_cache/
+
+# Ruff cache
+**/.ruff_cache/
+
+# Coverage files
+**/.coverage
+**/coverage.xml
+
+# Development tools and IDE-specific files
+*.idea/
+*.vscode/
+**/.vscode/
+.devcontainer/
+.github/
+
+# Exclude notebooks
+notebooks/
+
+# Exclude test-related files and directories
+tests/
+
+# Build and distribution artifacts
+**/build/
+**/dist/
+*.egg-info/
+.eggs/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Site-related files (if applicable)
+**/site/
+
+# Sensitive or configuration files
+.env
+*.pem
+*.key
+
+# Markdown and configuration files
+mkdocs.yml
+tox.ini
+pre-commit-config.yml
+codecove.yml
+.gitignore
+
+# Docker-related files (optional if Docker Compose is used locally but not in the image)
+docker-compose.yml
