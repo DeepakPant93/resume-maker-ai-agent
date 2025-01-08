@@ -12,6 +12,13 @@ dependencies = [
     "pypdf (>=5.1.0,<6.0.0)",
     "pysqlite3-binary >=0.5.4",
 ]
+[tool.poetry]
+package-mode = false
+packages = [
+    { include = "resume_maker_ai_agent" },
+    { include = ".streamlit/**/*.toml" },
+]
+
 
 [project.urls]
 repository = "https://github.com/DeepakPant93/resume-maker-ai-agent"
