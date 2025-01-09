@@ -25,6 +25,7 @@ RUN poetry config virtualenvs.create false \
 
 # Copy the rest of the application code
 COPY --chown=user . /app
+COPY --chown=user .streamlit/ /home/user/.streamlit/
 
 # Build the wheel file
 RUN poetry build -f wheel
@@ -49,6 +50,7 @@ WORKDIR /app
 
 # Copy the built wheel file from the builder stage
 COPY --chown=user --from=builder /app/dist/*.whl /app/
+COPY --chown=user --from=builder /home/user/.streamlit/ /home/user/.streamlit/
 
 RUN mkdir -p /app
 RUN chmod 777 /app

@@ -1,7 +1,7 @@
 [project]
 name = "resume_maker_ai_agent"
 version = "0.0.1"
-description = "This app will download Jio-Savan music."
+description = "This app will modify the resume as per the job description."
 readme = "README.md"
 authors = [{ name = "Deepak Pant", email = "deepak.93p@gmail.com" }]
 requires-python = ">=3.10,<=3.13"
@@ -11,12 +11,6 @@ dependencies = [
     # "python-docx >=1.1.2",
     "pypdf (>=5.1.0,<6.0.0)",
     "pysqlite3-binary >=0.5.4",
-]
-[tool.poetry]
-package-mode = false
-packages = [
-    { include = "resume_maker_ai_agent" },
-    { include = ".streamlit/**/*.toml" },
 ]
 
 

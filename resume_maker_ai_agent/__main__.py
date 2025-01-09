@@ -22,7 +22,8 @@ def main() -> None:
     current_dir = Path(__file__).parent
     streamlit_app_path = current_dir / "app.py"
 
-    sys.argv = ["streamlit", "run", str(streamlit_app_path), "--server.port", "7860"]
+    sys.argv = ["streamlit", "run", str(
+        streamlit_app_path), "--server.port", "7860", "--server.maxUploadSize", "10"]
     sys.exit(stcli.main())
 
 
